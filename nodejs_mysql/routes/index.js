@@ -1,26 +1,27 @@
-var express = require('express');
-var router = express.Router();
-
+let express = require('express');
+let router = express.Router();
+let sum=0;
 /* home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next)=> {
   // res.render('index', { title: 'Express' });
 
-  var db = req.con;
-  var data = "";
+  let db = req.con;
+  let data = "";
 
-  var user = "";
-  var user = req.query.user;
+  let user = "";
+  user = req.query.user;
 
-  var filter = "";
+  let filter = "";
   if(user){
     filter = 'WHERE userid = ?';
   }
 
-  db.query('SELECT * FROM test.info', function(err, rows){
+  db.query(`SELECT * FROM test.info`, (err, rows)=>{
     if(err){
       console.log(err);
     }
     data = rows;
+    sum = data.length;
 
     // usee index.ejs
     res.render('index',{title:'Personal Information', data:data, user:user});
@@ -29,24 +30,25 @@ router.get('/', function(req, res, next) {
 });
 
 // add page
-router.get('/add', function(req, res, next){
+router.get('/add', (req, res, next)=>{
 
   // use userAdd.ejs
   res.render('userAdd',{title:'Add info'});
 });
 
 // add post
-router.post('/userAdd', function(req, res, next){
-  var db = req.con;
-
-  var sql = {
+router.post('/userAdd', (req, res, next)=>{
+  let db = req.con;
+  
+  let sql = {
+    id:sum,
     userid:req.body.userid,
     password:req.body.password,
     email:req.body.email
   }
 
   //console.log(sql);
-  var qur = db.query('INSERT INTO info SET ?', sql, function(err, rows) {
+  let qur = db.query('INSERT INTO info SET ?', sql, (err, rows) => {
     if (err) {
         console.log(err);
     }
@@ -56,12 +58,12 @@ router.post('/userAdd', function(req, res, next){
 });
 
 // edit page
-router.get('/userEdit', function(req, res, next){
-  var id = req.query.id;
-  var db = req.con;
-  var data="";
+router.get('/userEdit', (req, res, next) => {
+  let id = req.query.id;
+  let db = req.con;
+  let data="";
 
-  db.query('SELECT * FROM info WHERE id = ?', id, function(err,rows){
+  db.query('SELECT * FROM info WHERE id = ?', id, (err,rows) => {
     if(err){
       console.log(err);
     }
@@ -72,17 +74,17 @@ router.get('/userEdit', function(req, res, next){
 });
 
 // edit post
-router.post('/userEdit',function(req, res, next){
-  var db = req.con;
-  var id = req.body.id;
+router.post('/userEdit', (req, res, next) => {
+  let db = req.con;
+  let id = req.body.id;
 
-  var sql = {
+  let sql = {
     userid: req.body.userid,
     password: req.body.password,
     email:  req.body.email
   };
 
-  var qur = db.query('UPDATE info SET ? WHERE id = ?',[sql, id], function(err, rows){
+  let qur = db.query('UPDATE info SET ? WHERE id = ?',[sql, id], (err, rows) => {
     if(err){
       console.log(err);
     }
@@ -93,12 +95,12 @@ router.post('/userEdit',function(req, res, next){
 });
 
 // delete get
-router.get('/userDelete', function(req, res, next) {
+router.get('/userDelete', (req, res, next) => {
 
-  var id = req.query.id;
-  var db = req.con;
+  let id = req.query.id;
+  let db = req.con;
 
-  var qur = db.query('DELETE FROM info WHERE id = ?', id, function(err, rows) {
+  let qur = db.query('DELETE FROM info WHERE id = ?', id, (err, rows) => {
       if (err) {
           console.log(err);
       }
