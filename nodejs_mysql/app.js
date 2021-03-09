@@ -15,12 +15,12 @@ const { resolveSoa } = require('dns');
 require('dotenv').config()
 
 // dotenv process.env 
-
-let con = mysql.createConnection({
-  host:process.env.host,
-  user:process.env.user,
-  password:process.env.password,
-  database:process.env.database
+const {host, user, password, database} = process.env
+const con = mysql.createConnection({
+  host,
+  user,
+  password,
+  database,
 });
 
 
