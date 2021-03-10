@@ -6,7 +6,6 @@ router.get('/', (req, res, next)=> {
   // res.render('index', { title: 'Express' });
 
   const {con} = req;
-  let data = "";
 
   const {user} = req.query;
 
@@ -19,10 +18,10 @@ router.get('/', (req, res, next)=> {
     if(err){
       console.log(err);
     }
-    data = rows;
+    let data = rows;
 
     // usee index.ejs
-    res.render('index',{title:'Personal Information', data:data, user:user});
+    res.render('index',{title:'Personal Information', data, user});
 
   })
 });
@@ -58,14 +57,13 @@ router.post('/userAdd', (req, res, next)=>{
 router.get('/userEdit', (req, res, next) => {
   const {id} = req.query;
   const {con} = req;
-  let data="";
 
   con.query(`SELECT * FROM info WHERE id = ${id}`, (err,rows) => {
     if(err){
       console.log(err);
     }
 
-    data = rows
+    let data = rows
     res.render('userEdit',{title:'Edit info', data:data});
   });
 });
