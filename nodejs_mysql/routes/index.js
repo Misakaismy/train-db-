@@ -44,7 +44,7 @@ router.post('/userAdd', (req, res, next)=>{
   }
 
   //console.log(sql);
-  let qur = con.query(`INSERT INTO info SET ?`,sql, (err, rows) => {
+  con.query(`INSERT INTO info SET ?`,sql, (err, rows) => {
     if (err) {
         console.log(err);
     }
@@ -71,7 +71,7 @@ router.get('/userEdit', (req, res, next) => {
 // edit post
 router.post('/userEdit', (req, res, next) => {
   const {con} = req;
-  let id = req.body.id;
+  let {id} = req.body;
   const {userid, password, email} = req.body
   let sql = {
     userid,
@@ -79,7 +79,7 @@ router.post('/userEdit', (req, res, next) => {
     email,
   };
 
-  let qur = con.query(`UPDATE info SET ${sql} WHERE id = ${id}]`, (err, rows) => {
+  con.query(`UPDATE info SET ${sql} WHERE id = ${id}`, (err, rows) => {
     if(err){
       console.log(err);
     }
@@ -95,7 +95,7 @@ router.get('/userDelete', (req, res, next) => {
   const {id} = req.query;
   const {con} = req;
 
-  let qur = con.query(`DELETE FROM info WHERE id = ${id}`, (err, rows) => {
+  con.query(`DELETE FROM info WHERE id = ${id}`, (err, rows) => {
       if (err) {
           console.log(err);
       }
